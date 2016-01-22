@@ -76,9 +76,9 @@ void HandleLog::Handle(char* logiptime)
 		}
 	}	
 }
-void HandleLog::Test(const string filepath)
+void HandleLog::Test(string filepath)
 {
-	ifstream inlog(filepath,std::io::in);
+	ifstream inlog(filepath,std::ios::in);
 	char buf[1024*5] ={0};
 	while(inlog.getline(buf,sizeof(buf)))
 	{
