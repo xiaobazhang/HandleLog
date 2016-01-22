@@ -18,7 +18,7 @@ void HandleLog::Sprintf_Metric(const string metric,const string host,int _time,i
 	string str(buf);
 	m_queue.push(str);
 }
-void HandleLog::test(char* logiptime)
+void HandleLog::Handle(char* logiptime)
 {
 	string str_kafka_ip;
 	if(!m_regexlog.GetLog_Ip(str_kafka_ip,logiptime))
@@ -83,7 +83,7 @@ void HandleLog::Process(rd_kafka_message_t* pMessage)
 	memcpy(buf,pMessage->payload,pMessage->len);
 	std::string m_kafka_log(buf);
 	m_regexlog.setLogStr(m_kafka_log);
-	this->test((char*)pMessage->key);
+	this->Handle((char*)pMessage->key);
 	if(m_queue.size()>20)
 	{
 		m_sendcurl.Send(m_queue);
@@ -92,9 +92,6 @@ void HandleLog::Process(rd_kafka_message_t* pMessage)
 void HandleLog::GetData(std::map<std::string,std::map<int,int> >& mapdate)
 {
 	int longtime = 0;
-	//if(m_str_log.isEmpty())
-	//	return ;
-
 	if(!m_regexlog.GetLog_Time(longtime))
 		return ;
 	else

@@ -111,7 +111,7 @@ bool RegexLog::GetLog_Search_Discard()
 bool RegexLog::GetLog_Ip(std::string& str_ip,const char* ch_kafka_key)
 {
 	string _str(ch_kafka_key);
-	if(!m_regex.Compile("([0-9]{1,3}[.]){3}[0-9]{1,3}"))
+	if(!m_regex.Compile("(([0-9]{1,3}[.]){3}[0-9]{1,3})"))
 	{
 		SET_ERROR_MSG("Compile Ip error");
 		return false;
@@ -121,7 +121,8 @@ bool RegexLog::GetLog_Ip(std::string& str_ip,const char* ch_kafka_key)
 		SET_ERROR_MSG("Match Ip error");
 		return false;
 	}
-	m_regex.GetGroupByIdx(1,str_ip);
-	std::cout<<"print kafka ip = "<<str_ip<<std::endl;
+	int num = m_regex.GetGroupNum();
+	m_regex.GetGroupByIdx(0,str_ip);
+	//std::cout<<"num ="<<num<<"print kafka ip = "<<str_ip<<std::endl;
 	return true;
 }

@@ -31,7 +31,7 @@ public:
  	~HandleLog()
 	{
 	}
- 	void test(char* logiptime);
+ 	void Handle(char* logiptime);
  	virtual void GetData(std::map<std::string,std::map<int,int> >& mapdate);
  	 inline void  Sprintf_Metric(const string metric,const string host,int _time,int value);
  	virtual void Process(rd_kafka_message_t* pMessage);
