@@ -43,6 +43,5 @@ public:
 
 private:
 	std::string m_strlog;
-	ckit::Regex m_regex;
 };
 #endif

@@ -19,6 +19,7 @@ namespace ckit
 bool RegexLog::GetLog_Time(int& logtime)
 {
 	std::string str_log_time;
+	ckit::Regex m_regex;
 	if(!m_regex.Compile("(2[0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9])"))
 	{
 		SET_ERROR_MSG("Compile log time error");
@@ -39,6 +40,7 @@ bool RegexLog::GetLog_Time(int& logtime)
 }
 bool RegexLog::GetLog_qps()
 {
+	ckit::Regex m_regex;
 	if(!m_regex.Compile("(query process finish.)"))
 	{
 		SET_ERROR_MSG("Compile query process finish error");
@@ -53,6 +55,7 @@ bool RegexLog::GetLog_qps()
 int RegexLog::GetLog_Cost_Time()
 {
 	std::string str_cost_time;
+	ckit::Regex m_regex;
 	if(!m_regex.Compile("cost_time:([0-9]+)"))
 	{
 		SET_ERROR_MSG("Compile cost_time error");
@@ -68,6 +71,7 @@ int RegexLog::GetLog_Cost_Time()
 }
 bool RegexLog::GetLog_Search_Zero()
 {
+	ckit::Regex m_regex;
 	if(!m_regex.Compile("return adlist size:0"))
 	{
 		SET_ERROR_MSG("Compile return adlist size:0 error");
@@ -82,6 +86,7 @@ bool RegexLog::GetLog_Search_Zero()
 }
 bool RegexLog::GetLog_Search_Failed()
 {
+	ckit::Regex m_regex;
 	if(!m_regex.Compile("ret:false"))
 	{
 		SET_ERROR_MSG("Compile ret:false error");
@@ -96,6 +101,7 @@ bool RegexLog::GetLog_Search_Failed()
 }
 bool RegexLog::GetLog_Search_Discard()
 {
+	ckit::Regex m_regex;
 	if(!m_regex.Compile("discard"))
 	{
 		SET_ERROR_MSG("Compile discard error");
@@ -110,6 +116,7 @@ bool RegexLog::GetLog_Search_Discard()
 }
 bool RegexLog::GetLog_Ip(std::string& str_ip,const char* ch_kafka_key)
 {
+	ckit::Regex m_regex;
 	string _str(ch_kafka_key);
 	if(!m_regex.Compile("(([0-9]{1,3}[.]){3}[0-9]{1,3})"))
 	{
@@ -123,6 +130,5 @@ bool RegexLog::GetLog_Ip(std::string& str_ip,const char* ch_kafka_key)
 	}
 	int num = m_regex.GetGroupNum();
 	m_regex.GetGroupByIdx(0,str_ip);
-	//std::cout<<"num ="<<num<<"print kafka ip = "<<str_ip<<std::endl;
 	return true;
 }
