@@ -31,7 +31,7 @@ public:
  	~HandleLog()
 	{
 	}
-	void Test();
+	void Test(const string filepath);
  	void Handle(char* logiptime);
  	virtual void GetData(std::map<std::string,std::map<int,int> >& mapdate);
  	 inline void  Sprintf_Metric(const string metric,const string host,int _time,int value);
