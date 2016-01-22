@@ -5,38 +5,30 @@
 #include <foundation/ckit_time.h>
 #include <string>
 #include <stdlib.h>
+#include <iostream>
 
 using namespace std;
 using namespace ckit;
-
-
-namespace ckit
-{
-	namespace time
-	{
-		/* 字符串时间转为时间戳*/
-		int StringTimeToInt(std::string str)
-		{
-			struct tm tm_time;  
-			int unixtime;  
-			strptime(str.c_str(),"%Y-%m-%d %H:%M:%S", &tm_time);     
-			unixtime = mktime(&tm_time);  
-			return unixtime; 
-		}
-	}
-}
+using namespace ckit::time;
 
 class RegexLog : public SupportErrorMsg
 {
 public:
+	RegexLog()
+	{
+
+	}
 	RegexLog(std::string str_log)
 	{
 		m_strlog = str_log;
 	}
-	~RegexLog();
+	~RegexLog()
+	{
+
+	}
 	bool setLogStr(std::string str)
 	{
-		if(!m_strlog.isEmpty())
+		if(!m_strlog.empty())
 			m_strlog.clear();
 		m_strlog = str;
 		return true;
@@ -53,3 +45,4 @@ private:
 	std::string m_strlog;
 	ckit::Regex m_regex;
 };
+#endif

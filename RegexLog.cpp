@@ -1,6 +1,21 @@
 #include "RegexLog.hpp"
 
 
+namespace ckit
+{
+	namespace time
+	{
+		/* 字符串时间转为时间戳*/
+		int StringTimeToInt(std::string str)
+		{
+			struct tm tm_time;  
+			int unixtime;  
+			strptime(str.c_str(),"%Y-%m-%d %H:%M:%S", &tm_time);     
+			unixtime = mktime(&tm_time);  
+			return unixtime; 
+		}
+	}
+}
 bool RegexLog::GetLog_Time(int& logtime)
 {
 	std::string str_log_time;
@@ -49,7 +64,7 @@ int RegexLog::GetLog_Cost_Time()
 		return -1;
 	}
 	m_regex.GetGroupByIdx(0,str_cost_time);
-	return atoi(str_cost_time);
+	return atoi(str_cost_time.c_str());
 }
 bool RegexLog::GetLog_Search_Zero()
 {
@@ -93,7 +108,7 @@ bool RegexLog::GetLog_Search_Discard()
 	}
 	return true;
 }
-bool GetLog_Ip(std::string& str_ip,const char* ch_kafka_key)
+bool RegexLog::GetLog_Ip(std::string& str_ip,const char* ch_kafka_key)
 {
 	string _str(ch_kafka_key);
 	if(!m_regex.Compile("([0-9]{1,3}[.]){3}[0-9]{1,3}"))

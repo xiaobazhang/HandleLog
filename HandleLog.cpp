@@ -6,7 +6,7 @@ bool SendCurl::Send(std::queue<std::string>& queue)
 	{
 		char send_buf[256] ={0};
 		sprintf(send_buf,"/usr/local/bin/curl -s -H 'Content-Type: application/json' -m 5 -X POST --data '[%s]' http://127.0.0.1:40001/api/put  -w \"http_code:[%{http_code}]\"",queue.front().c_str());
-		system(send_buf);
+		//system(send_buf);
 		std::cout<<"queue =:"<<queue.front()<<std::endl;
 		queue.pop();//出队列
 	}
@@ -18,21 +18,7 @@ void HandleLog::Sprintf_Metric(const string metric,const string host,int _time,i
 	string str(buf);
 	m_queue.push(str);
 }
-void Process(rd_kafka_message_t* pMessage)
-{
-	if(pMessage == NULL)
-		return ;
-	char* buf = new char[pMessage->len+1];
-	memcpy(buf,pMessage->payload,pMessage->len);
-	std::string m_kafka_log(buf);
-	m_regexlog.setLogStr(m_kafka_log);
-	GetIpLog((char*)pMessage->key);
-	if(m_queue.size()>20)
-	{
-		m_sendcurl.Send(m_queue);
-	}
-}
-void HandleLog::GetIpLog(const char* logiptime)
+void HandleLog::test(char* logiptime)
 {
 	string str_kafka_ip;
 	if(!m_regexlog.GetLog_Ip(str_kafka_ip,logiptime))
@@ -44,7 +30,7 @@ void HandleLog::GetIpLog(const char* logiptime)
 	{
 		if(!m_map_date.count(str_kafka_ip))
 		{
-			map<int,int> _map
+			map<int,int> _map;
 			map<string,map<int,int> > map_tmp;
 			map_tmp["qps"] = _map;
 			map_tmp["cost_time"] = _map;
@@ -70,7 +56,7 @@ void HandleLog::GetIpLog(const char* logiptime)
 			iter3 = iter->second["search_zero"].begin();
 			iter4 = iter->second["search_failed"].begin();
 			iter5 = iter->second["search_discard"].begin();
-			for(int i=0;i<2)//取出map中前两个
+			for(int i=0;i<2;i++)//取出map中前两个
 			{
 				int _avg_costtime = iter2->second/iter1->second;
 				if(_avg_costtime > 30)
@@ -89,11 +75,25 @@ void HandleLog::GetIpLog(const char* logiptime)
 		}
 	}	
 }
+void HandleLog::Process(rd_kafka_message_t* pMessage)
+{
+	if(pMessage == NULL)
+		return ;
+	char* buf = new char[pMessage->len+1];
+	memcpy(buf,pMessage->payload,pMessage->len);
+	std::string m_kafka_log(buf);
+	m_regexlog.setLogStr(m_kafka_log);
+	this->test((char*)pMessage->key);
+	if(m_queue.size()>20)
+	{
+		m_sendcurl.Send(m_queue);
+	}
+}
 void HandleLog::GetData(std::map<std::string,std::map<int,int> >& mapdate)
 {
 	int longtime = 0;
-	if(m_str_log.isEmpty())
-		return ;
+	//if(m_str_log.isEmpty())
+	//	return ;
 
 	if(!m_regexlog.GetLog_Time(longtime))
 		return ;
