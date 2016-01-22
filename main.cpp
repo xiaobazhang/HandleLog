@@ -7,7 +7,7 @@ using namespace ckit;
 int main(void)
 {
 	//ckit::log::SetPrintLogger();
-	KafkaConsumer myConsumer;
+	/*KafkaConsumer myConsumer;
 	HandleLog myhandlelog;
 	myConsumer.SetTopicConf("topic.offset.store.method", "file");
 	myConsumer.SetTopicConf("topic.offset.store.sync.interval.ms", "1");
@@ -21,5 +21,8 @@ int main(void)
 	while(1)
 	{
 		sleep(1);
-	}
+	}*/
+	HandleLog myhandlelog;
+	string filepath = "/home/suli/ms_srv_cpc.log.20160121";
+	myhandlelog.Test(filepath);
 }

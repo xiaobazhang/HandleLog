@@ -1,4 +1,5 @@
 #include "HandleLog.hpp"
+#include <fstream>
 
 bool SendCurl::Send(std::queue<std::string>& queue)
 {
@@ -74,6 +75,21 @@ void HandleLog::Handle(char* logiptime)
 			}
 		}
 	}	
+}
+void HandleLog::Test(const string filepath)
+{
+	ifstream inlog(filepath,std::io::in);
+	char buf[1024*5] ={0};
+	while(inlog.getline(buf,sizeof(buf)))
+	{
+		string strtmp(buf);
+		m_regexlog.setLogStr(strtmp);
+		this->Handle("10.17.31.92");
+		if(m_queue.size()>20)
+		{
+			m_sendcurl.Send(m_queue);
+		}
+	}
 }
 void HandleLog::Process(rd_kafka_message_t* pMessage)
 {
