@@ -7,7 +7,7 @@ bool SendCurl::Send(std::queue<std::string>& queue)
 	{
 		char send_buf[256] ={0};
 		sprintf(send_buf,"/usr/local/bin/curl -s -H 'Content-Type: application/json' -m 5 -X POST --data '[%s]' http://127.0.0.1:40001/api/put  -w \"http_code:[%{http_code}]\"",queue.front().c_str());
-		//system(send_buf);
+		system(send_buf);
 		std::cout<<"queue =:"<<queue.front()<<std::endl;
 		queue.pop();//出队列
 	}
