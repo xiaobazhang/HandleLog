@@ -23,6 +23,6 @@ int main(void)
 		sleep(1);
 	}*/
 	HandleLog myhandlelog;
-	string filepath = "/home/suli/ms_srv_cpc.log.20160121";
+	string filepath = "";
 	myhandlelog.Test(filepath);
 }
